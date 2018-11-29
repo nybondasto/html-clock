@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Everon - Digital Clock</title>
+    <style type="text/css">
+
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: italic;
+            font-weight: 400;
+            src: local('Open Sans Italic'), local('Open-Sans-Italic'), url('Fonts/OpenSans-Italic.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Open Sans Bold'), local('Open-Sans-Bold'), url('Fonts/OpenSans-Bold.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'Open Sans';
+            font-style: normal;
+            font-weight: 300;
+            src: local('Open Sans Regular'), local('Open-Sans-Regular'), url('Fonts/OpenSans-Regular.ttf') format('truetype');
+        }
+
+        		
+		body { 
+		  background-image: url(./syksy/syksy1.jpg); 
+		  background-size: 100% 100%;
+		  -webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-repeat: no-repeat;
+		  /*background-size: cover;*/
+		  background-position: 0 0;
+		}
+
+        .clock {
+            position: absolute;
+            top: 70%;
+            left: 55%;
+            transform: translateX(-50%) translateY(-50%);
+            color: #fff;
+            font-family: 'Open Sans' !important;
+            font-weight: 700;
+            font-size: 180px;
+            border: none;
+            padding: 0px 5px 0px 5px;
+            width: 800px;
+            height: auto;
+			text-shadow:
+				-2px -2px 0 #202020,
+				2px -2px 0 #202020,
+				-2px 2px 0 #202020,
+				2px 2px 0 #202020;
+        }
+		
+		.logo {
+			display: block;
+			position: absolute;
+			left: 4%;
+			top: 5%;
+			z-index: 999999;
+			width: 200px;
+			height: 50px;
+		}
+		
+		.logoimage {
+			zoom: 1;
+			height: 40px;
+		}
+
+    </style>
+</head>
+<body>
+	<div id="logo" class="logo">
+		<img src="./everon_logo.png" class="logoimage"/>
+	</div>
+    <div id="MyClockDisplay" class="clock"></div>
+    <script type="text/javascript">
+				
+			  //=============================================//
+			 //	v. 1.0	Tomas Nybondas, (C)2018, Everon Oy  //
+			//=============================================//
+						
+			var imageSource = "";
+			var pvm = new Date();
+			var imagesArray;
+			
+			//-- Satunnaisluku 0...6 -väliltä. Jos lisäät kuvia, kasvata randomizer-muuttujan
+			//-- arvo vastaamaan kansiossa olevien kuvien lukumäärää. Ts. jos kansiossa on 9
+			//-- kuvaa, randomizer = 9. Ks. myös alla kuvien lisäys.
+			
+			var randomizer = 7; 
+			
+			//-- Jos kuvia lisätään järjestelmään, ne pitää viedä kansioihin "syksy", "talvi", "kevat" ja "kesa"
+			//-- sekä lisätä allaoleviin array-taulukoihin, jotta ne saadaan näytölle tarvittaessa. Arrayn sisällä
+			//-- kuvien nimet voivat olla mitä vain, kunhan ne vastaavat kansioissa olevien kuvien nimiä.
+			
+			var syksyArray = ["syksy1.jpg", "syksy2.jpg", "syksy3.jpg", "syksy4.jpg", "syksy5.jpg", "syksy6.jpg", "syksy7.jpg"];
+			var talviArray = ["talvi1.jpg", "talvi2.jpg","talvi3.jpg","talvi4.jpg","talvi5.jpg","talvi6.jpg","talvi7.jpg"];
+			var kevatArray = ["kevat1.jpg", "kevat2.jpg","kevat3.jpg","kevat4.jpg","kevat5.jpg","kevat6.jpg","kevat7.jpg"];
+			var kesaArray = ["kesa1.jpg", "kesa2.jpg","kesa3.jpg","kesa4.jpg","kesa5.jpg","kesa6.jpg","kesa7.jpg",];
+
+			
+			function naytaVuodenajanKuva(pvm) {
+			
+				//-- Funktio tarkistaa mikä vuodenaika on menossa javascript vaihtaa sivun taustakuvan sen mukaiseksi
+				
+				//-- Talvi: joulukuu-helmikuu
+				//-- Kevät: maaliskuu-toukokuu
+				//-- Kesä: kesäkuu-elokuu
+				//-- Syksy: syyskuu-marraskuu
+				
+				var hakemisto = "";
+				var vuosi = pvm.getFullYear();
+								
+				var kevat = new Date(vuosi + "-03-01");
+				var kesa = new Date(vuosi + "-06-01");
+				var syksy = new Date(vuosi + "-09-01");
+				var talvi = new Date(vuosi + "-11-01");
+				var talvi2 = new Date((vuosi + 1) + "-01-01");
+
+				var bOnKevat, bOnKesa, bOnSyksy, bOnTalvi = false;
+				
+				bOnKevat = (pvm >= kevat && pvm <= kesa);
+				bOnKesa = (pvm >= kesa && pvm <= syksy);
+				bOnSyksy = (pvm >= syksy && pvm <= talvi);
+				bOnTalvi = ((pvm >= talvi && pvm <= talvi2) || (pvm >= talvi2 && pvm <= kevat));
+				
+				//-- Satunnaisluvun arvonta. Taustakuva vaihtuu tämän luvun perusteella.
+				//-- Satunnaislukua käytetään array-taulukon indeksinä kulloisenkin kuvan polun saamiseksi.
+				
+				var num = Math.floor(Math.random() * randomizer); 
+				
+				if (bOnKevat) { hakemisto = "./kevat/"; imagesArray = kevatArray; }
+				if (bOnKesa) { hakemisto = "./kesa/"; imagesArray = kesaArray; }
+				if (bOnSyksy) { hakemisto = "./syksy/"; imagesArray = syksyArray; }
+				if (bOnTalvi) { hakemisto = "./talvi/"; imagesArray = talviArray; }
+				
+				document.body.style.backgroundImage = "url(" + hakemisto + imagesArray[num] + ")";
+				document.body.style.backgroundSize = "cover";
+			}
+			
+			function showTime(){
+			
+				//-- Funktio muodostaa kellonajan suomalaiseen formaattiin, ts. "13:45:30"
+				//-- ja näyttää sen overlay-kerroksessa taustakuvan päällä. Funktio on
+				//-- ajastettu suorittamaan itsensä kerran sekunnissa "setTimeout(showTime, 1000);".
+			
+				var date = new Date();
+				var h = date.getHours(); // 0 - 23
+				var m = date.getMinutes(); // 0 - 59
+				var s = date.getSeconds(); // 0 - 59
+				var session = "AM";
+								
+				if(h == 0){
+					//h = 12;
+				}
+
+				if(h > 12){
+					session = "PM";
+				}
+
+				h = (h < 10) ? "0" + h : h;
+				m = (m < 10) ? "0" + m : m;
+				s = (s < 10) ? "0" + s : s;
+
+                var time = h + ":" + m + ":" + s; 
+				document.getElementById("MyClockDisplay").innerText = time;
+				document.getElementById("MyClockDisplay").textContent = time;
+
+				setTimeout(showTime, 1000);
+			}
+
+			naytaVuodenajanKuva(pvm);
+			showTime();
+
+    </script>
+</body>
+</html>

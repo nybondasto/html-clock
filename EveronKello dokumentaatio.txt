@@ -1,0 +1,27 @@
+
+Everon Digital Clock 1.0:n tekninen dokumentaatio
+===================================================================================
+
+17.10.2018/Tomas Nybondas
+
+
+
+Kellon toteutus on tehty käyttäen standardia HTML-, CSS-, ja JavaScript-koodausta.
+Kaikki logiikka löytyy index.html-tiedostosta.
+
+Tyylimääritykset ovat kiinteinä sivulla, koska niitä on niin vähän eikä ole tarvetta
+erilliselle css-tyylitiedostolle, joka ladattaisiin sivun latauksen yhteydessä.
+Kellon vaihtuvat taustakuvat löytyvät vuodenaikojen mukaan omista kansioistaan.
+
+Kuvien pystykorkeudeksi on pyritty rajaamaan 800px minimi, jotta näyttö pysyy siistin
+näköisenä. Vasemmassa yläkulmassa näkyvä Everon-logo on transparentti png-kuva, joka 
+on lisätty tyylimääritysten avulla overlay-kerrokseksi taustakuvan päälle. Näinollen
+logo pysyy taustakuvan skaalautumisesta huolimatta aina saman kokoisena. Myös juokseva
+kellonaika asemoidaan paikoilleen tyylimääritysten avulla pelkkänä tekstinä.
+
+Javascript-funktio showTime() päivittää kelloa kerran sekunnissa.
+
+Kun muutoksia index.html-tiedostoon tehdään, pitää sivu siirtää ftp:llä takaisin
+web-palvelimelle. Samoin kun uusia kuvia lisätään, ne pitää myös siirtää ftp:llä
+palvelimelle haluttuihin hakemistoihin.
+

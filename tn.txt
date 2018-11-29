@@ -1,0 +1,13 @@
+dev tun
+persist-tun
+persist-key
+cipher BF-CBC
+ncp-ciphers AES-256-GCM:AES-128-GCM
+auth SHA1
+tls-client
+client
+resolv-retry infinite
+remote vpn.everon.fi 1197 udp
+pkcs12 gw-UDP4-1197-tomas.nybondas.p12
+comp-lzo no
+
