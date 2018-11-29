@@ -76,7 +76,7 @@
 </head>
 <body>
 	<div id="logo" class="logo">
-		<img src="./everon_logo.png" class="logoimage"/>
+		<img src="./logo.png" class="logoimage"/>
 	</div>
     <div id="MyClockDisplay" class="clock"></div>
     <script type="text/javascript">
@@ -86,69 +86,70 @@
 			//=============================================//
 						
 			var imageSource = "";
-			var pvm = new Date();
+			var theDate = new Date();
 			var imagesArray;
 			
-			//-- Satunnaisluku 0...6 -väliltä. Jos lisäät kuvia, kasvata randomizer-muuttujan
-			//-- arvo vastaamaan kansiossa olevien kuvien lukumäärää. Ts. jos kansiossa on 9
-			//-- kuvaa, randomizer = 9. Ks. myös alla kuvien lisäys.
+			//-- Random integer between 0...6. If images are added, increase this integer to
+			//-- match the count of images in a folder, ie. if a folder contains 9 images 
+			//-- randomizer = 9. Check also "adding images".
 			
 			var randomizer = 7; 
+
+            //-- Adding images
+			//-- If images are added into folders, folders must be named as "fall", "winter", "spring" ja "summer"
+			//-- and add images to respecive arrays so, that they can be found correctly when needed. In array
+			//-- names of the images can be whatever, as long as they match with the filenames of the images in the folders.
 			
-			//-- Jos kuvia lisätään järjestelmään, ne pitää viedä kansioihin "syksy", "talvi", "kevat" ja "kesa"
-			//-- sekä lisätä allaoleviin array-taulukoihin, jotta ne saadaan näytölle tarvittaessa. Arrayn sisällä
-			//-- kuvien nimet voivat olla mitä vain, kunhan ne vastaavat kansioissa olevien kuvien nimiä.
-			
-			var syksyArray = ["syksy1.jpg", "syksy2.jpg", "syksy3.jpg", "syksy4.jpg", "syksy5.jpg", "syksy6.jpg", "syksy7.jpg"];
-			var talviArray = ["talvi1.jpg", "talvi2.jpg","talvi3.jpg","talvi4.jpg","talvi5.jpg","talvi6.jpg","talvi7.jpg"];
-			var kevatArray = ["kevat1.jpg", "kevat2.jpg","kevat3.jpg","kevat4.jpg","kevat5.jpg","kevat6.jpg","kevat7.jpg"];
-			var kesaArray = ["kesa1.jpg", "kesa2.jpg","kesa3.jpg","kesa4.jpg","kesa5.jpg","kesa6.jpg","kesa7.jpg",];
+            var fallArray = ["fall1.jpg", "fall2.jpg", "fall3.jpg", "fall4.jpg", "fall5.jpg", "fall6.jpg", "fall7.jpg"];
+            var winterArray = ["winter1.jpg", "winter2.jpg", "winter3.jpg", "winter4.jpg", "winter5.jpg", "winter6.jpg","winter7.jpg"];
+            var springArray = ["spring1.jpg", "spring2.jpg", "spring3.jpg", "spring4.jpg", "spring5.jpg", "spring6.jpg","spring7.jpg"];
+            var summerArray = ["summer1.jpg", "summer2.jpg", "summer3.jpg", "summer4.jpg", "summer5.jpg", "summer6.jpg","summer7.jpg"];
 
 			
-			function naytaVuodenajanKuva(pvm) {
+			function showSeasonImage(date) {
 			
-				//-- Funktio tarkistaa mikä vuodenaika on menossa javascript vaihtaa sivun taustakuvan sen mukaiseksi
+				//-- Function checks which season of the year is now and javascript changes the background image accord that.
 				
-				//-- Talvi: joulukuu-helmikuu
-				//-- Kevät: maaliskuu-toukokuu
-				//-- Kesä: kesäkuu-elokuu
-				//-- Syksy: syyskuu-marraskuu
+				//-- Winter: December-February
+				//-- Spring: March-May
+				//-- Summer: June-August
+				//-- Fall: September-November
 				
-				var hakemisto = "";
-				var vuosi = pvm.getFullYear();
+				var folder = "";
+                var theYear = date.getFullYear();
 								
-				var kevat = new Date(vuosi + "-03-01");
-				var kesa = new Date(vuosi + "-06-01");
-				var syksy = new Date(vuosi + "-09-01");
-				var talvi = new Date(vuosi + "-11-01");
-				var talvi2 = new Date((vuosi + 1) + "-01-01");
+                var spring = new Date(theYear + "-03-01");
+                var summer = new Date(theYear + "-06-01");
+                var fall = new Date(theYear + "-09-01");
+                var winter = new Date(theYear + "-12-01");
+                var winter2 = new Date((theYear + 1) + "-01-01");
 
-				var bOnKevat, bOnKesa, bOnSyksy, bOnTalvi = false;
+				var bIsSpring, bIsSummer, bIsFall, bIsWinter = false;
 				
-				bOnKevat = (pvm >= kevat && pvm <= kesa);
-				bOnKesa = (pvm >= kesa && pvm <= syksy);
-				bOnSyksy = (pvm >= syksy && pvm <= talvi);
-				bOnTalvi = ((pvm >= talvi && pvm <= talvi2) || (pvm >= talvi2 && pvm <= kevat));
+                bIsSpring = (date >= spring && date <= summer);
+                bIsSummer = (date >= summer && date <= fall);
+                bIsFall = (date >= fall && date <= winter);
+                bIsWinter = ((date >= winter && date <= winter2) || (date >= winter2 && date <= spring));
 				
-				//-- Satunnaisluvun arvonta. Taustakuva vaihtuu tämän luvun perusteella.
-				//-- Satunnaislukua käytetään array-taulukon indeksinä kulloisenkin kuvan polun saamiseksi.
+				//-- Randomizing a number. Background image will be changed by this number.
+				//-- This number is used as a index pointer in an array to get the respective image name.
 				
 				var num = Math.floor(Math.random() * randomizer); 
 				
-				if (bOnKevat) { hakemisto = "./kevat/"; imagesArray = kevatArray; }
-				if (bOnKesa) { hakemisto = "./kesa/"; imagesArray = kesaArray; }
-				if (bOnSyksy) { hakemisto = "./syksy/"; imagesArray = syksyArray; }
-				if (bOnTalvi) { hakemisto = "./talvi/"; imagesArray = talviArray; }
+                if (bIsSpring) { folder = "./spring/"; imagesArray = springArray; }
+                if (bIsSummer) { folder = "./summer/"; imagesArray = summerArray; }
+                if (bIsFall) { folder = "./fall/"; imagesArray = fallArray; }
+                if (bIsWinter) { folder = "./winter/"; imagesArray = winterArray; }
 				
-				document.body.style.backgroundImage = "url(" + hakemisto + imagesArray[num] + ")";
+				document.body.style.backgroundImage = "url(" + folder + imagesArray[num] + ")";
 				document.body.style.backgroundSize = "cover";
 			}
 			
 			function showTime(){
 			
-				//-- Funktio muodostaa kellonajan suomalaiseen formaattiin, ts. "13:45:30"
-				//-- ja näyttää sen overlay-kerroksessa taustakuvan päällä. Funktio on
-				//-- ajastettu suorittamaan itsensä kerran sekunnissa "setTimeout(showTime, 1000);".
+				//-- Function generates time in Finnish format (24h), ie. "13:45:30"
+				//-- and shows it in overlay-layer on top of the background image. Function runs
+				//-- every one second "setTimeout(showTime, 1000);".
 			
 				var date = new Date();
 				var h = date.getHours(); // 0 - 23
@@ -175,7 +176,7 @@
 				setTimeout(showTime, 1000);
 			}
 
-			naytaVuodenajanKuva(pvm);
+			showSeasonImage(theDate);
 			showTime();
 
     </script>
