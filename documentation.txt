@@ -1,27 +1,29 @@
 
-Everon Digital Clock 1.0:n tekninen dokumentaatio
+Seasonal Digital Clock 1.0:n technical documentation
 ===================================================================================
 
 17.10.2018/Tomas Nybondas
 
 
+Seasonal Digital Clock is created just by using HTML, CSS, and JavaScript.
+All logic is found in the index.html-file.
 
-Kellon toteutus on tehty käyttäen standardia HTML-, CSS-, ja JavaScript-koodausta.
-Kaikki logiikka löytyy index.html-tiedostosta.
+Moment.JS is used for easy formatting of the clock display. If you need to change
+the time format, please check Moment.JS documentation on their website.
 
-Tyylimääritykset ovat kiinteinä sivulla, koska niitä on niin vähän eikä ole tarvetta
-erilliselle css-tyylitiedostolle, joka ladattaisiin sivun latauksen yhteydessä.
-Kellon vaihtuvat taustakuvat löytyvät vuodenaikojen mukaan omista kansioistaan.
+CSS-styles are written on that same page, because they are so few and I didn't
+want to have an css-stylesheet, that would be loaded on page load.
+Seasonal background images are located by season and in respective folders.
 
-Kuvien pystykorkeudeksi on pyritty rajaamaan 800px minimi, jotta näyttö pysyy siistin
-näköisenä. Vasemmassa yläkulmassa näkyvä Everon-logo on transparentti png-kuva, joka 
-on lisätty tyylimääritysten avulla overlay-kerrokseksi taustakuvan päälle. Näinollen
-logo pysyy taustakuvan skaalautumisesta huolimatta aina saman kokoisena. Myös juokseva
-kellonaika asemoidaan paikoilleen tyylimääritysten avulla pelkkänä tekstinä.
+Height of the images should be 800px minimum, so that display looks nice and cool.
+The logo located in the top left corner is a PNG-image with transparent background,  
+that is placed with css-style as an overlay over the top of the background. Thus
+logo keeps always its dimensions even when background resizes. Running clock display
+is also an overlay and it is just plain text with css-style.
 
-Javascript-funktio showTime() päivittää kelloa kerran sekunnissa.
+Javascript-function showTime() updates clock once a second - nothing fancy here...
 
-Kun muutoksia index.html-tiedostoon tehdään, pitää sivu siirtää ftp:llä takaisin
-web-palvelimelle. Samoin kun uusia kuvia lisätään, ne pitää myös siirtää ftp:llä
-palvelimelle haluttuihin hakemistoihin.
+If you make changes to index.html-file, you have to upload the file back to the webserver
+(if you use one) to take effect. If new background-images are added, they also needs to be 
+uploaded to the webserver.
 

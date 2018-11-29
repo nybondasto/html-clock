@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Everon - Digital Clock</title>
+    <title>Digital Clock</title>
     <style type="text/css">
 
         @font-face {
@@ -73,6 +73,7 @@
 		}
 
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
 </head>
 <body>
 	<div id="logo" class="logo">
@@ -84,11 +85,12 @@
 			  //=============================================//
 			 //	v. 1.0	Tomas Nybondas, (C)2018, Everon Oy  //
 			//=============================================//
-						
+                						
 			var imageSource = "";
 			var theDate = new Date();
-			var imagesArray;
-			
+            var imagesArray;
+            showTime();
+        			
 			//-- Random integer between 0...6. If images are added, increase this integer to
 			//-- match the count of images in a folder, ie. if a folder contains 9 images 
 			//-- randomizer = 9. Check also "adding images".
@@ -105,6 +107,7 @@
             var springArray = ["spring1.jpg", "spring2.jpg", "spring3.jpg", "spring4.jpg", "spring5.jpg", "spring6.jpg","spring7.jpg"];
             var summerArray = ["summer1.jpg", "summer2.jpg", "summer3.jpg", "summer4.jpg", "summer5.jpg", "summer6.jpg","summer7.jpg"];
 
+            
 			
 			function showSeasonImage(date) {
 			
@@ -147,37 +150,19 @@
 			
 			function showTime(){
 			
-				//-- Function generates time in Finnish format (24h), ie. "13:45:30"
-				//-- and shows it in overlay-layer on top of the background image. Function runs
-				//-- every one second "setTimeout(showTime, 1000);".
+				//-- Function generates time in Finnish format (24h), ie. "23:45:30"
+				//-- and shows it in overlay-layer on top of the background image. 
+                //-- If you need other time-format, change moment().format as you like.
+                //-- Correct format can be found from the Moment.JS website.
+				//-- This function runs every one second: "setInterval(showTime, 1000);".
 			
-				var date = new Date();
-				var h = date.getHours(); // 0 - 23
-				var m = date.getMinutes(); // 0 - 59
-				var s = date.getSeconds(); // 0 - 59
-				var session = "AM";
-								
-				if(h == 0){
-					//h = 12;
-				}
-
-				if(h > 12){
-					session = "PM";
-				}
-
-				h = (h < 10) ? "0" + h : h;
-				m = (m < 10) ? "0" + m : m;
-				s = (s < 10) ? "0" + s : s;
-
-                var time = h + ":" + m + ":" + s; 
-				document.getElementById("MyClockDisplay").innerText = time;
-				document.getElementById("MyClockDisplay").textContent = time;
-
-				setTimeout(showTime, 1000);
-			}
-
-			showSeasonImage(theDate);
-			showTime();
+                var t = (moment().format('HH:mm:ss'));
+                document.getElementById("MyClockDisplay").innerText = t;
+                document.getElementById("MyClockDisplay").textContent = t;
+            }
+            
+            showSeasonImage(theDate);
+            setInterval(showTime, 1000);
 
     </script>
 </body>
